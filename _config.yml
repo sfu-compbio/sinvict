@@ -1,0 +1,18 @@
+
+---
+
+### site serving configuration ###
+exclude: [CNAME, README.md, .gitignore]
+timezone: null
+lsi: false
+markdown: kramdown
+highlighter: rouge
+
+
+### content configuration ###
+name: "SiNVICT"
+title: "SiNVICT: Single Nucleotide Variant and Indel Detection in Circulating Tumor DNA"
+keywords: "sinvict, SNV calling, next generation sequencing, high throughput sequencing, Illumina, Ion Torrent, cell free DNA"
+description: "Single Nucleotide and Indel Caller for Circulating Tumor DNA"
+source_link: "http://sfu-compbio.github.io/sinvict/"
+git_link: "https://github.com/sfu-compbio/sinvict/"
