@@ -1,0 +1,12 @@
+[submodule "abra"]
+	path = abra
+	url = https://github.com/mozack/abra
+[submodule "bwa"]
+	path = bwa
+	url = https://github.com/lh3/bwa
+[submodule "bam-readcount"]
+	path = bam-readcount
+	url = https://github.com/genome/bam-readcount
+[submodule "fastx_toolkit"]
+	path = fastx_toolkit
+	url = https://github.com/agordon/fastx_toolkit
