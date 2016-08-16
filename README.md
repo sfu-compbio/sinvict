@@ -58,13 +58,13 @@ You may run SiNVICT with modified parameters. For example, to require the calls 
 
 There are many options that can be added to the SiNVICT command line. Here are the explanation of these parameteres.
 
- * --errorRate:  Error Rate for the sequencing technology used (e.g. Illumina, Ion Torrent, ...) (Default: 0.01)
- * --minDepth: Minimum required read depth for a call to be considered reliable. (Default: 100)
- * --leftStrandBias and --rightStrandBias: The strand bias values in the range [leftStrandBias, rightStrandBias] will be considered reliable. This [lsb, rsb] interval has to be between [0,1]. (Defaults: 0.3 and 0.7)
- * --readEndFraction: Despite the trimming step, calls can be marked as low confidence according to the average position of the base on the reads that support a call. This value should be within range 0-1. (Default: 0.01)
- * --QScoreCutoff: The poisson model used by SiNVICT assigns a QScore to every call. Calls with a QScore below the user defined threshold will be considered low confidence. This value should be in range 0-99. (Default: 95)
- * --tumorDirectoryPath: The path to the directory where the readcount files are located.
- * --outputDirectoryPath: The path to an empty directory where the output files will be generated.  
+ * --error-rate:  Error Rate for the sequencing technology used (e.g. Illumina, Ion Torrent, ...) (Default: 0.01)
+ * --min-depth: Minimum required read depth for a call to be considered reliable. (Default: 100)
+ * --left-strand-bias and --right-strand-bias: The strand bias values in the range [leftStrandBias, rightStrandBias] will be considered reliable. This [lsb, rsb] interval has to be between [0,1]. (Defaults: 0.3 and 0.7)
+ * --read-end-fraction: Despite the trimming step, calls can be marked as low confidence according to the average position of the base on the reads that support a call. This value should be within range 0-1. (Default: 0.01)
+ * --qscore-cutoff: The poisson model used by SiNVICT assigns a QScore to every call. Calls with a QScore below the user defined threshold will be considered low confidence. This value should be in range 0-99. (Default: 95)
+ * --tumor-directory-path: The path to the directory where the readcount files are located.
+ * --output-directory-path: The path to an empty directory where the output files will be generated.  
 
 
 ----
