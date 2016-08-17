@@ -17,7 +17,7 @@ Currently Supported Features:
 
 ### Publications
 
-- [TBA]
+- [Bioinformatics](http://bioinformatics.oxfordjournals.org/content/early/2016/08/14/bioinformatics.btw536)
 
 ### Usage
 
