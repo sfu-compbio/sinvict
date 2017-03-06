@@ -1,5 +1,4 @@
 #include <cmath>
-#include <boost/math/distributions/poisson.hpp>
 #include "Statistics.h"
 
 double Statistics::leftTailedFisher( int a, int b, int c, int d)
@@ -85,10 +84,28 @@ double Statistics::hypergeometricProbability( int a, int b, int c, int d)
 	return p;
 }
 
-double Statistics::poissonCdf( int x, double lambda)
+// Smart idea to compute the Poisson PDF without actually calculating
+// k! directly. We use gamma function instead and solve the PDF in
+// logarithmic domain.
+// The idea and code snippet for Statistics::poissonPDF by Markus Saers:
+// www.masaers.com/2013/10/08/Implementing-Poisson-pmf.html
+double Statistics::poissonPDF(const double k, const double lambda)
 {
-	boost::math::poisson_distribution<> poissonDist( lambda);
-	return boost::math::cdf( poissonDist, x);
+	return std::exp(k * std::log(lambda) - std::lgamma(k + 1.0) - lambda);
+}
+
+// Now using the efficient implementation of the Poisson PDF above,
+// we can easily compute the Poisson CDF without having to rely on
+// any external statistical libraries.
+double Statistics::poissonCDF(const double k, const double lambda)
+{
+	double sum = 0;
+	for(int i = 0; i <= std::floor(k); i++)
+	{
+		sum = sum + Statistics::poissonPDF((double) i, lambda);
+	}
+
+	return sum;
 }
 
 double Statistics::mean( const std::vector<double> values)

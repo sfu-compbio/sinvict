@@ -39,13 +39,13 @@ std::vector<Location> Filter::applyBaseThresholds( std::unordered_map<std::strin
 	return newCandidateLocations;
 }
 
-double Filter::illuminaPoissonFilter( const int count, const double lambda)
+double Filter::illuminaPoissonFilter(const int count, const double lambda)
 {
 	double pval;
 	double qscore;
-	if( count >= 1)
+	if(count >= 1)
 	{
-		pval = ( double) 1 - Statistics::poissonCdf( count - 1, lambda);
+		pval = (double) 1 - Statistics::poissonCDF((double)(count - 1), lambda);
 	}
 	else
 	{
