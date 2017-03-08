@@ -2,23 +2,15 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
-#include "argh.h"
+#include <getopt.h>
 #include "Caller.h"
 
 void printHelp();
 
 int main(int argc, char** argv)
 {
-	// Initialize the "argh" command-line parser
-	argh::parser cmdl(argc, argv);
-
-	// If the help flag is set, print help message and exit
-	if(cmdl["--help"] || cmdl["-h"])
-	{
-		printHelp();
-		return 0;
-	}
-
+	int opt, opt_index;
+	
 	// Default parameters
 	double errorRate = 0.01;
 	int minDepth = 100;
@@ -31,82 +23,54 @@ int main(int argc, char** argv)
 	bool tumorDirectorySpecified = false;
 	bool outputDirectorySpecified = false;
 
-	// Now go through all command arguments to overwrite default arguments when applicable
-	for(auto& param : cmdl.params())
+	static struct option long_options[] = {
+		{"error-rate",				required_argument, 0,  'e' },
+		{"min-depth",				required_argument, 0,  'm' },
+		{"left-strand-bias",		required_argument, 0,  'l' },
+		{"right-strand-bias",		required_argument, 0,  'r' },
+		{"read-end-fraction",		required_argument, 0,  'f' },
+		{"qscore-cutoff",			required_argument, 0,  'q' },
+		{"tumor-directory-path",	required_argument, 0,  't' },
+		{"output-directory-path",	required_argument, 0,  'o' },
+		{0, 0, 0, 0 }
+	};
+
+	while ( -1 !=  (opt = getopt_long( argc, argv, "he:m:l:r:f:q:t:o:", long_options, &opt_index )  ) )
 	{
-		if(param.first == "tumor-directory-path" || param.first == "t")
+		switch(opt)
 		{
-			if(!(cmdl(param.first) >> tumorDirectoryPath))
-			{
-				std::cerr << "Invalid value entered for tumor-directory-path. Must be string." << std::endl;
+			case 'h':
 				printHelp();
 				return 0;
-			}
-			tumorDirectorySpecified = true;
-		}
-		else if(param.first == "output-directory-path" || param.first == "o")
-		{
-			if(!(cmdl(param.first) >> outputDirectoryPath))
-			{
-				std::cerr << "Invalid value entered for output-directory-path. Must be string." << std::endl;
+			case 'e':
+				errorRate 		= atof( optarg );
+				break;
+			case 'm':
+				minDepth  		= atoi( optarg );
+				break;
+			case 'l':
+				leftStrandBias  = atof( optarg );
+				break;
+			case 'r':
+				rightStrandBias	= atof( optarg );
+				break;
+			case 'f':
+				readEndFraction	= atof( optarg );
+				break;
+			case 'q':
+				qScoreCutoff  	= atoi( optarg );
+				break;
+			case 't':
+				tumorDirectoryPath = std::string( optarg );
+				tumorDirectorySpecified = true;
+				break;
+			case 'o':
+				outputDirectoryPath = std::string( optarg );
+				outputDirectorySpecified = true;
+				break;
+			default:
 				printHelp();
 				return 0;
-			}
-			outputDirectorySpecified = true;
-		}
-		else if(param.first == "error-rate" || param.first == "e")
-		{
-			if(!(cmdl(param.first) >> errorRate))
-			{
-				std::cerr << "Invalid value entered for error-rate. Must be double >= 0.0" << std::endl;
-				printHelp();
-				return 0;
-			}
-		}
-		else if(param.first == "min-depth" || param.first == "m")
-		{
-			if(!(cmdl(param.first) >> minDepth))
-			{
-				std::cerr << "Invalid value entered for min-depth. Must be integer > 0." << std::endl;
-				printHelp();
-				return 0;
-			}
-		}
-		else if(param.first == "left-strand-bias" || param.first == "l")
-		{
-			if(!(cmdl(param.first) >> leftStrandBias))
-			{
-				std::cerr << "Invalid value entered for left-strand-bias. Must be double >= 0.0" << std::endl;
-				printHelp();
-				return 0;
-			}
-		}
-		else if(param.first == "right-strand-bias" || param.first == "r")
-		{
-			if(!(cmdl(param.first) >> rightStrandBias))
-			{
-				std::cerr << "Invalid value entered for right-strand-bias. Must be double >= 0.0" << std::endl;
-				printHelp();
-				return 0;
-			}
-		}
-		else if(param.first == "read-end-fraction" || param.first == "f")
-		{
-			if(!(cmdl(param.first) >> readEndFraction))
-			{
-				std::cerr << "Invalid value entered for read-end-fraction. Must be double >= 0.0" << std::endl;
-				printHelp();
-				return 0;
-			}
-		}
-		else if(param.first == "qscore-cutoff" || param.first == "q")
-		{
-			if(!(cmdl(param.first) >> qScoreCutoff))
-			{
-				std::cerr << "Invalid value entered for qscore-cutoff. Must be integer > 0" << std::endl;
-				printHelp();
-				return 0;
-			}
 		}
 	}
 
