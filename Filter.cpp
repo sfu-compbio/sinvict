@@ -46,6 +46,10 @@ double Filter::illuminaPoissonFilter(const int count, const double lambda)
 	if(count >= 1)
 	{
 		pval = (double) 1 - Statistics::poissonCDF((double)(count - 1), lambda);
+		if(pval < 0)
+		{
+			pval = 0;
+		}
 	}
 	else
 	{
