@@ -35,14 +35,14 @@ void Sample::printSample()
 	readcountEntry.printReadcountEntry();
 }
 
-void Sample::printSample( std::ofstream& out)
+void Sample::printSample( std::ofstream& out, int usePoissonGermline)
 {
 	out << sampleName << "\t";
-	readcountEntry.printReadcountEntry( out);
+	readcountEntry.printReadcountEntry( out, usePoissonGermline);
 }
 
-void Sample::printSampleUCSC( std::ofstream& out)
+void Sample::printSampleUCSC( std::ofstream& out, int usePoissonGermline)
 {
 	out << sampleName << "\t";
-	readcountEntry.printReadcountEntry( out);
+	readcountEntry.printReadcountEntry( out, usePoissonGermline);
 }

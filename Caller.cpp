@@ -9,7 +9,7 @@
 #include "Filter.h"
 #include "Common.h"
 
-Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath)
+Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline)
 {
 	this->poissonLambda = poissonLambda;
 	this->minDepth = minDepth;
@@ -17,6 +17,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	this->strandBiasRight = rightStrandBias;
 	this->minQScore = qCutoff;
 	this->readEndFraction = readEndFraction;
+	this->usePoissonGermline = usePoissonGermline;
 
 	( this->tumorDirectoryPath).assign( tumorDirectoryPath);
 	( this->benignDirectoryPath).assign( benignDirectoryPath);
@@ -38,7 +39,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	}
 }
 
-Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath)
+Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline)
 {
 	this->poissonLambda = poissonLambda;
 	this->minDepth = minDepth;
@@ -46,6 +47,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	this->strandBiasRight = rightStrandBias;
 	this->minQScore = qCutoff;
 	this->readEndFraction = readEndFraction;
+	this->usePoissonGermline = usePoissonGermline;
 
 	( this->tumorDirectoryPath).assign( tumorDirectoryPath);
 	( this->outputDirectoryPath).assign( outputDirectoryPath);
@@ -548,7 +550,7 @@ int Caller::callLocationsMixture()
 //	printCITUP( firstLevelPass, outputFile1);
 	for( int i = 0; i < firstLevelPass.size(); i++)
 	{
-		firstLevelPass[i].printLocation( outputFile1);
+		firstLevelPass[i].printLocation( outputFile1, usePoissonGermline);
 	}
 
 	// Clear out the first level pass vector
@@ -562,7 +564,7 @@ int Caller::callLocationsMixture()
 //	printCITUP( secondLevelPass, outputFile2);
 	for( int i = 0; i < secondLevelPass.size(); i++)
 	{
-		secondLevelPass[i].printLocation( outputFile2);
+		secondLevelPass[i].printLocation( outputFile2, usePoissonGermline);
 	}
 
 	// Clear out the second level pass vector
@@ -576,7 +578,7 @@ int Caller::callLocationsMixture()
 //	printCITUP( thirdLevelPass, outputFile3);
 	for( int i = 0; i < thirdLevelPass.size(); i++)
 	{
-		thirdLevelPass[i].printLocation( outputFile3);
+		thirdLevelPass[i].printLocation( outputFile3, usePoissonGermline);
 	}
 
 	// Clear out the third level pass vector
@@ -590,7 +592,7 @@ int Caller::callLocationsMixture()
 //	printCITUP( fourthLevelPass, outputFile4);
 	for( int i = 0; i < fourthLevelPass.size(); i++)
 	{
-		fourthLevelPass[i].printLocation( outputFile4);
+		fourthLevelPass[i].printLocation( outputFile4, usePoissonGermline);
 	}
 
 	// Clear out the fourth level pass vector
@@ -604,7 +606,7 @@ int Caller::callLocationsMixture()
 //	printCITUP( fifthLevelPass, outputFile5);
 	for( int i = 0; i < fifthLevelPass.size(); i++)
 	{
-		fifthLevelPass[i].printLocation( outputFile5);
+		fifthLevelPass[i].printLocation( outputFile5, usePoissonGermline);
 	}
 
 	// Clear out the fifth level pass vector
@@ -613,7 +615,7 @@ int Caller::callLocationsMixture()
 	// Print out the next level of calls
 	for( int i = 0; i < sixthLevelPass.size(); i++)
 	{
-		sixthLevelPass[i].printLocation( outputFile6);
+		sixthLevelPass[i].printLocation( outputFile6, usePoissonGermline);
 		//sixthLevelPass[i].printLocationVCF( outputFile6);
 	}
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Allele.h"
+#include "Filter.h"
 
 Allele::Allele( const std::string base, const int count, const double avgMappingQuality,
 		const double avgBaseQuality, const double avgSEMappingQuality,
@@ -137,17 +138,34 @@ void Allele::printAllele()
 	std::cout << avgPosAsFraction;
 }
 
-void Allele::printAllele( std::ofstream& out)
+void Allele::printAllele( std::ofstream& out, int readDepth, int usePoissonGermline)
 {
 	out << base << "\t" << count << "\t" << percentage << "\t" << "+:" << numPlusStrand << "\t" << "-:" << numMinusStrand << "\t";
 	out << avgPosAsFraction << "\t";
-	if(percentage >= 50)
+
+	if(usePoissonGermline)
 	{
-		out << "Germline";
+		double lambda2 = readDepth * 0.5;
+		double pval2 = Filter::illuminaPoissonFilter(count, lambda2);
+		if(pval2 < 0.05)
+		{
+			out << "Germline";
+		}
+		else
+		{
+			out << "Somatic";
+		}
 	}
 	else
 	{
-		out << "Somatic";
+		if(percentage >= 40)
+		{
+			out << "Germline";
+		}
+		else
+		{
+			out << "Somatic";
+		}
 	}
 }
 

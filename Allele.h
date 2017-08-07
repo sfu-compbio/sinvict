@@ -63,7 +63,7 @@ class Allele
 
 		// Print allele information
 		void printAllele();
-		void printAllele( std::ofstream& out);
+		void printAllele( std::ofstream& out, int readDepth, int usePoissonGermline);
 		void printAlleleUCSC( std::ofstream& out);
 };
 #endif

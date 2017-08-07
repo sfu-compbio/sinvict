@@ -25,7 +25,7 @@ class ReadcountEntry
 		Allele getMostFreqVariantAllele();
 		int getIndexMostFreqVariantAllele();
 		void printReadcountEntry();
-		void printReadcountEntry( std::ofstream& out);
+		void printReadcountEntry( std::ofstream& out, int usePoissonGermline);
 		void printReadcountEntryUCSC( std::ofstream& out);
 };
 #endif

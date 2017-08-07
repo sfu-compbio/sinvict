@@ -18,7 +18,7 @@ class Sample
 		std::string getPath();
 		std::string getSampleName();
 		void printSample();
-		void printSample( std::ofstream& out);
-		void printSampleUCSC( std::ofstream& out);
+		void printSample( std::ofstream& out, int usePoissonGermline);
+		void printSampleUCSC( std::ofstream& out, int usePoissonGermline);
 };
 #endif

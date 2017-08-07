@@ -28,10 +28,11 @@ class Caller
 		double strandBiasRight;
 		int minQScore;
 		double readEndFraction;
+		int usePoissonGermline;
 
 	public:
-		Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath);
-		Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath);
+		Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline);
+		Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline);
 		int loadEntries( const std::string path);
 		void calculateStatistics();
 		int callLocationsMixture();

@@ -96,7 +96,7 @@ void Location::printLocation()
 	}	
 }
 
-void Location::printLocation( std::ofstream& out)
+void Location::printLocation( std::ofstream& out, int usePoissonGermline)
 {
 /*	out << chr << "\t" << position << "\t" << meanVAP << "\t" << varianceVAP << "\t" << stdVAP << "\t" << cov << "\t";
 	for( int i = 0; i < samples.size(); i++)
@@ -108,7 +108,7 @@ void Location::printLocation( std::ofstream& out)
 	for( int i = 0; i < samples.size(); i++)
 	{
 		out << chr << "\t" << position << "\t";
-		samples[i].printSample( out);
+		samples[i].printSample( out, usePoissonGermline);
 		out << "\n";
 	}
 }

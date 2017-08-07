@@ -17,6 +17,6 @@ class Batch
 		std::vector<Location> getLocations();
 		void addLocation( Location newLocation);
 		void printBatch();
-		void printBatch( std::ofstream& out);
+		void printBatch( std::ofstream& out, int usePoissonGermline);
 };
 #endif

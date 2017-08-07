@@ -78,14 +78,14 @@ void ReadcountEntry::printReadcountEntry()
 	}
 }
 
-void ReadcountEntry::printReadcountEntry( std::ofstream& out)
+void ReadcountEntry::printReadcountEntry( std::ofstream& out, int usePoissonGermline)
 {
 	out << refBase << "\t" << readDepth << "\t";
 	for( int i = 0; i < alleles.size(); i++)
 	{
 		if( i == indexMostFreqVariantAllele)
 		{
-			alleles[i].printAllele( out);
+			alleles[i].printAllele( out, readDepth, usePoissonGermline);
 		}
 	}
 }

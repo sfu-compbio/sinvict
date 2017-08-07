@@ -37,7 +37,7 @@ class Location
 		void setCOV( double newCOV);
 		void setMutatedBase( std::string base);
 		void printLocation();
-		void printLocation( std::ofstream& out);
+		void printLocation( std::ofstream& out, int usePoissonGermline);
 		void printVCFHeader( std::ofstream& out);
 		void printLocationVCF( std::ofstream& out);
 		void printUCSCHeader( std::ofstream& out);

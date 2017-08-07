@@ -28,7 +28,7 @@ void Batch::printBatch()
 	}
 }
 
-void Batch::printBatch( std::ofstream& out)
+void Batch::printBatch( std::ofstream& out, int usePoissonGermline)
 {
 	out << "Batch at directory: " << path << "\n\n";
 
@@ -36,6 +36,6 @@ void Batch::printBatch( std::ofstream& out)
 	out << "================== " << "\n";
 	for( int i = 0; i < locations.size(); i++)
 	{
-		locations[i].printLocation( out);
+		locations[i].printLocation( out, usePoissonGermline);
 	}
 }
