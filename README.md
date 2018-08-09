@@ -5,7 +5,7 @@ SiNVICT is a tool for the detection of SNVs and indels from cfDNA/ctDNA samples 
 ### Prerequisites ###
 
 * g++ version: 4.8.3
-* Boost version: 1_53
+* ~~Boost version: 1_53~~ (no longer required)
 
 ----
 
