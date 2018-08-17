@@ -9,7 +9,7 @@
 #include "Filter.h"
 #include "Common.h"
 
-Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline)
+Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* benignDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline, const int disableLvl5Filter)
 {
 	this->poissonLambda = poissonLambda;
 	this->minDepth = minDepth;
@@ -18,6 +18,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	this->minQScore = qCutoff;
 	this->readEndFraction = readEndFraction;
 	this->usePoissonGermline = usePoissonGermline;
+	this->disableLvl5Filter = disableLvl5Filter;
 
 	( this->tumorDirectoryPath).assign( tumorDirectoryPath);
 	( this->benignDirectoryPath).assign( benignDirectoryPath);
@@ -39,7 +40,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	}
 }
 
-Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline)
+Caller::Caller( const double poissonLambda, const int minDepth, const double leftStrandBias, const double rightStrandBias, const double readEndFraction, const int qCutoff, const char* tumorDirectoryPath, const char* outputDirectoryPath, const int usePoissonGermline, const int disableLvl5Filter)
 {
 	this->poissonLambda = poissonLambda;
 	this->minDepth = minDepth;
@@ -48,6 +49,7 @@ Caller::Caller( const double poissonLambda, const int minDepth, const double lef
 	this->minQScore = qCutoff;
 	this->readEndFraction = readEndFraction;
 	this->usePoissonGermline = usePoissonGermline;
+	this->disableLvl5Filter = disableLvl5Filter;
 
 	( this->tumorDirectoryPath).assign( tumorDirectoryPath);
 	( this->outputDirectoryPath).assign( outputDirectoryPath);
@@ -585,7 +587,15 @@ int Caller::callLocationsMixture()
 	thirdLevelPass.clear();
 
 	// Apply average filter
-	std::vector<Location> fifthLevelPass = callAverageFilter( fourthLevelPass);
+	std::vector<Location> fifthLevelPass;
+	if(disableLvl5Filter == 0)
+	{
+		fifthLevelPass = callAverageFilter( fourthLevelPass);
+	}
+	else
+	{
+		fifthLevelPass = fourthLevelPass;
+	}
 
 	// Print out next level of calls
 //	printUCSC( fourthLevelPass, outputFile4);

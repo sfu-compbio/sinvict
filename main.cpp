@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 	bool tumorDirectorySpecified = false;
 	bool outputDirectorySpecified = false;
 	int usePoissonGermline = 1;
+	int disableLvl5Filter = 0;
 
 	static struct option long_options[] = {
 		{"error-rate",				required_argument, 0,  'e' },
@@ -34,10 +35,11 @@ int main(int argc, char** argv)
 		{"tumor-directory-path",	required_argument, 0,  't' },
 		{"output-directory-path",	required_argument, 0,  'o' },
 		{"use-poisson-germline",	required_argument, 0,  's' },
+		{"disable-lvl5-filter",		required_argument, 0,  '5' },
 		{0, 0, 0, 0 }
 	};
 
-	while ( -1 !=  (opt = getopt_long( argc, argv, "he:m:l:r:f:q:t:o:", long_options, &opt_index )  ) )
+	while ( -1 !=  (opt = getopt_long( argc, argv, "he:m:l:r:f:q:t:o:s:5:", long_options, &opt_index )  ) )
 	{
 		switch(opt)
 		{
@@ -73,6 +75,9 @@ int main(int argc, char** argv)
 			case 's':
 				usePoissonGermline = atoi(optarg);
 				break;
+			case '5':
+				disableLvl5Filter = atoi(optarg);
+				break;
 			default:
 				printHelp();
 				return 0;
@@ -94,11 +99,12 @@ int main(int argc, char** argv)
 	std::cout << "--right-strand-bias set to: " << rightStrandBias << std::endl;
 	std::cout << "--read-end-fraction set to: " << readEndFraction << std::endl;
 	std::cout << "--qscore-cutoff set to: " << qScoreCutoff << std::endl;
+	std::cout << "--use-poisson-germline specified with value = " << usePoissonGermline << std::endl;
+	std::cout << "--disable-lvl5-filter specified with value = " << disableLvl5Filter << std::endl;
 	std::cout << "--tumor-directory-path specified with value = " << tumorDirectoryPath << std::endl;
 	std::cout << "--output-directory-path specified with value = " << outputDirectoryPath << std::endl;
-	std::cout << "--use-poisson-germline specified with value = " << usePoissonGermline << std::endl;
 
-	Caller caller(errorRate, minDepth, leftStrandBias, rightStrandBias, readEndFraction, qScoreCutoff, tumorDirectoryPath.c_str(), outputDirectoryPath.c_str(), usePoissonGermline);
+	Caller caller(errorRate, minDepth, leftStrandBias, rightStrandBias, readEndFraction, qScoreCutoff, tumorDirectoryPath.c_str(), outputDirectoryPath.c_str(), usePoissonGermline, disableLvl5Filter);
 	caller.callLocationsMixture();
 
 	return 0;
@@ -116,9 +122,10 @@ void printHelp()
 	desc = desc + "\t--read-end-fraction or -f : Average position of the called base on the reads supporting the call as a fraction.";
 	desc = desc + "End values such as 0.01 as useful for filtering read end artifacts.\n";
 	desc = desc + "\t--qscore-cutoff or -q : Cutoff value for the qScore assigned to each call by the Poisson model used.\n";
+	desc = desc + "\t--use-poisson-germline or -s : Use a more robust poisson model to guess somatic/germline status.\n";
+	desc = desc + "\t--disable-lvl5-filter or -5 : If the input value is 1, SNR filter is disabled.\n";
 	desc = desc + "\t--tumor-directory-path or -t : Specifies directory for the input files.\n";
 	desc = desc + "\t--output-directory-path or -o : Specifies directory for the output files.\n";
-	desc = desc + "\t--use-poisson-germline or -s : Use a more robust poisson model to guess somatic/germline status.\n";
 
 	// Print help message
 	std::cout << ("\nSiNVICT: Ultra Sensitive Detection of Single Nucleotide Variants and Indels in Circulating Tumour DNA.");
@@ -130,5 +137,5 @@ void printHelp()
 
 	std::cout << "\t--tumor-directory-path and --output-directory-path must be specified\n" << std::endl;
 	std::cout << "\tUsage: ./sinvict -e=[error-rate] -m=[min-depth] -l=[left-strand-bias] -r=[right-strand-bias] ";
-	std::cout << "-f=[read-end-fraction] -q=[qscore-cutoff] -t=<tumor-directory-path> -o=<output-directory-path> -s=<use-poisson-germline>\n" << std::endl;
+	std::cout << "-f=[read-end-fraction] -q=[qscore-cutoff] -s=<use-poisson-germline> -5=<disable-lvl5-filter> -t=<tumor-directory-path> -o=<output-directory-path> \n" << std::endl;
 }
